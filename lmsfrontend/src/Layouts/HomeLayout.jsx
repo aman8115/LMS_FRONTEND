@@ -2,65 +2,69 @@ import{ AiFillCloseCircle, } from 'react-icons/ai'
 import {FiMenu} from 'react-icons/fi'
 import {Link} from 'react-router-dom'
 
+import Footer from '../component/Footer.jsx'
 
 
 
-function Home(){
+
+
+function Home({children}){
     function Onchangwidth(){
         const drawerSide = document.getElementsByClassName('drawer-side')
-        drawerSide[0].style.width = 0;
+        drawerSide[0].style.width = 'auto'
     }
     function Hidedrawer(){
         const element = document.getElementsByClassName("drawer-toggle")
         element[0].checked = false;
-        Onchangwidth()
+      //  Onchangwidth()
     }
     return (
-        <>
-       <div className="h-[90vh]">
-        <div className="drawer absolute left-0 z-50">
-            <input className="drawer-toggle" type="checkbox " id="my-drawer"  />
-            <label htmlFor="my-drawer" className="cursor-pointer relative">
-                   <FiMenu
-                  onClick={Onchangwidth}
-                   size={'20px'}
-                   className='text-xl font-bold m-4'
-                   
-                   />
-            </label>
-        </div>
-        <div className='drawer-side '>
-            <label htmlFor="my-drawer" className='drawer-overlay'></label>
-            <ul className='menu w-50 min-h-full text-base-content bg-base-200 relative '>
-                <li className='w-fit relative right-2 z-50'>
-                    <button>
-                        <AiFillCloseCircle
-                        size={'24px'}
-                         className='text-xl'
-                         onClick={Hidedrawer}
-                        />
-                    </button>
-                </li>
-              <li> 
-            <Link to="/courses"></Link>
-            course
-              </li>
-              <li>
-            <Link to="/contact"></Link>
-            Contact
-              </li>
-              <li>
-             <Link to="/about"></Link>
-             About
-              </li>
-              <li>
+      <>
+     <div className=' min-h-[90vh] '>
+        
+        <div className='text-4xl drawer absolute left-0 w-fit z-50'>
+            <input  id='my-drawer' type='checkbox' className='drawer-toggle'/>
+            <div className=' drawer-content'>
+                <label htmlFor="my-drawer" className='cursor-pointer relative'>
+                    <FiMenu onClick={Onchangwidth}  size={32} className='font-bold ' />
+                </label>
+            </div>
+            <div className=' drawer-side w-0'>
+                <label htmlFor="my-drawer" className=' drawer-overlay'></label>
+                <ul className=' menu p-4 w-fit bg-base-200 text-base-content   relative'>
+                    <li className=' w-10  absolute z-50  right-1'>
+                        <button onClick={Hidedrawer}  className='  absolute w-fit'>     <AiFillCloseCircle size={24}/></button>
+                       
+                        
+                    </li>
+                    <li > 
+                        
+                    <Link to="/courses">All course</Link>
 
-              </li>
-            </ul>
-        </div>
-       
-       </div>
-        </>
+                    </li>
+                    <li> 
+
+                    <Link to="/about">AboutUS</Link>
+
+                    </li>
+                    <li> 
+
+                   <Link to="contact"> contactUS</Link>
+                   
+                   </li>
+                </ul>
+            </div>
+
+        </div> 
+
+
+        {children}
+        <Footer></Footer>
+     </div>
+     </>
+      
+
+      
     )
 
 }
