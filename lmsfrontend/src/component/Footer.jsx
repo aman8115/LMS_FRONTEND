@@ -4,21 +4,19 @@ function Footer(){
     const year = currentDate.getFullYear()
     return(
         <>
-        <footer className=' w-full '>
-           <section className="  bg-red-500  flex justify-between">
+        <footer className="h-[10vh] relative left-0 right-0 flex justify-between flex-col sm:flex-row items-center py-6 sm:psx-20 bg-gray-600">
+            <section className="text-lg">
+                copyRight &copy;{year} AllRight reserved
 
-           <div className='text-xl  '>
-             CopyRight &copy; {year} || All Right resrved
-            </div>
-            <div className=' text-xl flex '>
-                <a className="hover:text-yellow-600 transition-all ease-in-out duration-300" href=""> <FaYoutube/></a>
+            </section>
+            <section className="flex items-center justify-center gap-4 text-xl  text-white">
+              <a href=""><FaFacebook/></a>
                 <a href=""><FaInstagram/></a>
+                <a href="https://www.linkedin.com/feed/ " target="blank"><FaLinkedin/></a>
                 <a href=""><FaTwitter/></a>
-                <a href=""><FaLinkedin/></a>
-                <a href=""> <FaFacebook/> </a>
-            </div>
+                <a href=""><FaYoutube/></a>
+            </section>
 
-           </section>
         </footer>
         </>
     )
