@@ -32,9 +32,9 @@ function Home({children}){
     }
     return (
       <>
-     <div className=' min-h-[90vh] '>
+     <div className=' min-h-[90vh]  '>
         
-        <div className='text-4xl drawer absolute left-0 w-fit z-50'>
+        <div className='text-4xl drawer absolute left-0 w-[100%] z-50'>
             <input  id='my-drawer' type='checkbox' className='drawer-toggle'/>
             <div className=' drawer-content'>
                 <label htmlFor="my-drawer" className='cursor-pointer relative'>
@@ -43,7 +43,7 @@ function Home({children}){
             </div>
             <div className=' drawer-side w-0'>
                 <label htmlFor="my-drawer" className=' drawer-overlay'></label>
-                <ul className=' menu p-4 w-fit bg-base-200 text-base-content   relative'>
+                <ul className=' menu p-4 w-48 bg-base-200 text-base-content  h-[100%] relative'>
                     <li className=' w-10  absolute z-50  right-1'>
                         <button onClick={Hidedrawer}  className='  absolute w-fit'>     <AiFillCloseCircle size={24}/></button>
                        
@@ -64,7 +64,7 @@ function Home({children}){
                     </li>
                     <li> 
 
-                    <Link to="/about">AboutUS</Link>
+                    <Link to="/aboutus">AboutUS</Link>
 
                     </li>
                     <li> 
@@ -72,14 +72,14 @@ function Home({children}){
                    <Link to="contact"> contactUS</Link>
                    
                    </li>
-                   <li>
+                   <li className='absolute w-[100%] bottom-4 right-3'>
                    {!isLoggedIn&&(
                   
-                    <div className='flex items-center justify-center gap-4 w-full'>
-                        <button className='btn btn-primary py-0.5 px-2 rounded-xl font-semibold w-[80px]'>
+                    <div className='flex items-center justify-center gap-3 w-full '>
+                        <button className='btn btn-primary py-0.5 px-2 rounded-xl font-semibold w-24'>
                             <Link to="/login">Login</Link>
                         </button>
-                        <button className='btn btn-secondary py-0.5  px-2 font-semibold w-[80px] rounded-xl'>
+                        <button className='btn btn-secondary py-0.5  px-2 font-semibold w-24 rounded-xl'>
                             <Link to='/signup'>SignUp</Link>
                         </button>
                     </div>
