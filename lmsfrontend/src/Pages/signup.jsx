@@ -3,6 +3,7 @@ import   { toast} from 'react-hot-toast'
 import{BsPersonCircle, } from 'react-icons/bs'
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 import Home from "../Layouts/HomeLayout";
 import { createAccount } from "../Redux/Slice/Authslice";
@@ -70,10 +71,10 @@ function Signup(){
       formData.append('email',signupData.email);
       formData.append('password',signupData.password);
       formData.append('avatar',signupData.avatar);
-     const response = await dispatch(createAccount(formData));
-     if(response?.payload?.success)
-     console.log(response)
-      navigate('/')
+     const res = await dispatch(createAccount(formData));
+     console.log(res)
+     if (res?.payload?.success) navigate("/");
+     
       SetsignupData({
         fullName:'',
         email:'',
@@ -111,8 +112,7 @@ return(
             <input type="email" name="email" id="email" 
                    required
                    placeholder="Enter your Email..."
-                   className="px-2 py-1 bg-transparent border
-                   text-center rounded-lg"
+                   className="px-2 py-1 bg-transparent border text-center rounded-lg"
                    onChange={handelUserInput}
                    value={signupData.email}
             />
@@ -131,7 +131,9 @@ return(
                 value={signupData.password}
                 />
                 <button type="submit" className="w-full bg-yellow-600 py-2 px-1 text-center  font-semibold rounded-lg transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:text-white hover:rounded-sm ">Create account</button>
-
+               <Link to='/login' className="link link-hover link-secondary text-lg">
+                <p >Already have an account ?</p>
+               </Link>
            </div>
         </form>
           
