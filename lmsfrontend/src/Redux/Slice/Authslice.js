@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import axiosInstance from "../../Helpers/axiosintance";
 const initialState = {
-    isLoggdIn:localStorage.getItem('isLoggdIn')||false,
+    isLoggedIn:localStorage.getItem('isLoggedIn')||false,
     role:localStorage.getItem('role')||'',
     data:localStorage.getItem('data')||{}
 }
@@ -40,6 +40,21 @@ async(data)=>{
 
     }
 })
+export const Logout = createAsyncThunk('/auth/logout',async()=>{
+    try{
+        const res = axiosInstance.get('/user/logout');
+        toast.promise(res,{
+            loading:' logout in process',
+            success:(data) =>{
+                 return data?.data?.message
+            },
+            error:' logout faild'
+        })
+        return (await res).data
+    }catch (e){
+        toast.error(e?.data?.response?.message)
+    }
+})
     
        
     
@@ -51,11 +66,18 @@ const authSlice = createSlice({
     extraReducers:(builder)=>{
         builder.addCase(LoginAccount.fulfilled,(state,action)=>{
             localStorage.setItem('data',JSON.stringify(action?.payload?.user))
-            localStorage.setItem('isLoggdIn',true)
+            localStorage.setItem('isLoggedIn',true)
             localStorage.setItem('role',action?.payload?.user?.role)
-           state.isLoggdIn = true
+           state.isLoggedIn = true
             state.data = action?.payload?.user;
             state.role = action?.payload?.user?.role;
+        })
+        .addCase(Logout.fulfilled,(state)=>{
+            localStorage.clear()
+            
+            state.isLoggedIn = false
+            state.data = {}
+            state.role = ""
         })
     }
 })

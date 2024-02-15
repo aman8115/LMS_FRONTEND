@@ -4,6 +4,7 @@ import { useDispatch, useSelector} from 'react-redux'
 import {Link, useNavigate} from 'react-router-dom'
 
 import Footer from '../component/Footer.jsx'
+import { Logout } from '../Redux/Slice/Authslice.js'
 
 
 
@@ -25,9 +26,10 @@ function Home({children}){
     const  navigate = useNavigate();
     const isLoggedIn = useSelector((state)=> state?.auth.isLoggedIn)
     const role = useSelector((state)=>state?.auth?.role)
-    function handleLogout(e){
-        e.perventDfault()
-      //  const res  = await dispatch(logout())
+   async function handleLogout(e){
+        e.preventDefault()
+       const res  = await dispatch(Logout())
+       if(res?.payload?.success)
         navigate('/')
     }
     return (
@@ -51,11 +53,11 @@ function Home({children}){
                     </li>
                     <li> <Link to='/'>Home</Link></li>
                    
-                        {isLoggedIn && role==='ADMIN '(
+                         {isLoggedIn && role==='ADMIN' &&(
                         <li>
                             <Link to='/admin/dashboard'>Admin Dashboard</Link>
                         </li>
-                        )}
+                        )} 
               
                     <li > 
                         
@@ -92,10 +94,10 @@ function Home({children}){
                   
                   <div className='flex items-center justify-center gap-4 w-full'>
                       <button className='btn btn-primary py-0.5 px-2 rounded-xl font-semibold w-[80px]'>
-                          <Link onClick={handleLogout()}>Logout</Link>
+                          <Link onClick={handleLogout}>Logout</Link>
                       </button>
                       <button className='btn btn-secondary py-0.5  px-2 font-semibold w-[80px] rounded-xl '>
-                          <Link to='/signup'>SignUp</Link>
+                          <Link to='/userprofile'>Profile</Link>
                       </button>
                   </div>
                  
