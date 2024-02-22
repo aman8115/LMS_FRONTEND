@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import{useDispatch, useSelector} from 'react-redux'
 
+import Coursecard from '../../component/coursecard'
 import Home from '../../Layouts/HomeLayout'
 import { getCourses } from '../../Redux/Slice/courseSlice'
-import Coursecard from '../../component/coursecard'
 function CourseList(){
 const dispatch = useDispatch()
 const {courseData}  = useSelector((state) => state.course)
