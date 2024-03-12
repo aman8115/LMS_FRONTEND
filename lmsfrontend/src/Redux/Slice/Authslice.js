@@ -5,7 +5,8 @@ import axiosInstance from "../../Helpers/axiosintance";
 const initialState = {
     isLoggedIn:localStorage.getItem('isLoggedIn')||false,
     role:localStorage.getItem('role')||'',
-    data:localStorage.getItem('data')||{}
+   
+    data:JSON.parse(localStorage.getItem('data'))||{}
 }
 
 export const createAccount = createAsyncThunk("/auth/rgister" , async (data) =>{
@@ -55,6 +56,17 @@ export const Logout = createAsyncThunk('/auth/logout',async()=>{
         toast.error(e?.data?.response?.message)
     }
 })
+export const getUserDtails = createAsyncThunk('/auth/details',async()=>{
+   try{
+    const res =  axiosInstance.get('/user/me');
+    
+    return (await res).data
+
+   }catch(e){
+    toast.error(e?.data?.res?.message)
+
+   }
+})
     
        
     
@@ -78,6 +90,15 @@ const authSlice = createSlice({
             state.isLoggedIn = false
             state.data = {}
             state.role = ""
+        })
+        .addCase(getUserDtails.fulfilled,(action,state)=>{
+            localStorage.setItem("data",JSON.stringify(action?.payload?.user))
+            localStorage.setItem("isLoggedIn",true)
+            localStorage.setItem('role',action?.payload?.user?.role)
+            state.isLoggedIn = true
+            state.data = action?.payload?.user
+            state.role = action?.payload?.user?.role
+            console.log(action?.payload)
         })
     }
 })
