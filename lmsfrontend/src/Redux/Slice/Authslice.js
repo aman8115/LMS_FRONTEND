@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 
 import axiosInstance from "../../Helpers/axiosintance";
+
 const initialState = {
-    isLoggedIn:localStorage.getItem('isLoggedIn')||false,
-    role:localStorage.getItem('role')||'',
-   
-    data:JSON.parse(localStorage.getItem('data'))||{}
-}
+    isLoggedIn: localStorage.getItem('isLoggedIn') || false,
+    role: localStorage.getItem('role') || "",
+   // data: localStorage.getItem('data') != undefined ? JSON.parse(localStorage.getItem('data')) : {}
+};
 
 export const createAccount = createAsyncThunk("/auth/rgister" , async (data) =>{
     try{
@@ -56,6 +56,7 @@ export const Logout = createAsyncThunk('/auth/logout',async()=>{
         toast.error(e?.data?.response?.message)
     }
 })
+
 export const getUserDtails = createAsyncThunk('/auth/details',async()=>{
    try{
     const res =  axiosInstance.get('/user/me');
@@ -67,7 +68,38 @@ export const getUserDtails = createAsyncThunk('/auth/details',async()=>{
 
    }
 })
-    
+// export const UpdateUser = createAsyncThunk('/auth/update',async(id,data)=>{
+//   try{
+// const res = axiosInstance.put(`/user/edit:${id}`,data);
+//        res.promise(res,{
+//         loading:' Profile Updation in progress',
+//         success:(data)=>{
+//           return  data?.data?.message
+//         },
+//         error:" Profile updation failed"
+//        })
+//        return (await res).data
+
+//   }catch(e){
+//               toast.error(e?.data?.response?.message)
+//   }
+// })
+export const UpdateUser = createAsyncThunk("/user/update/profile", async ({ id, data }) => {
+    try {
+        const res = axiosInstance.put(`user/update/${id} `,data);
+        toast.promise(res, {
+            loading: "Wait! profile update in progress...",
+            success: (data) => {
+                return data?.data?.message;
+            },
+            error: "Failed to update profile"
+        });
+        return (await res).data;
+    } catch(error) {
+        toast.error(error?.response?.data?.message);
+    }
+})
+  
        
     
 
@@ -96,10 +128,11 @@ const authSlice = createSlice({
             localStorage.setItem("isLoggedIn",true)
             localStorage.setItem('role',action?.payload?.user?.role)
             state.isLoggedIn = true
-            state.data = action?.payload?.user
-            state.role = action?.payload?.user?.role
-            console.log(action?.payload)
-        })
+             state.data = action?.payload?.user
+             state.role = action?.payload?.user?.role
+             console.log(action?.payload)
+         })
+          
     }
 })
 
