@@ -7,91 +7,10 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 import Home from "../Layouts/HomeLayout";
-import { UpdateUser } from "../Redux/Slice/Authslice";
+import { getUserDtails,UpdateUser } from "../Redux/Slice/Authslice";
 
 
-// function EditProfile(){
-//     const dispatch = useDispatch()
-//     const[data,Setdata] = useState({
-//         previewImage:'',
-//         fullName:"",
-//         avatar:undefined,
-//         userID: useSelector((state) => state?.auth?.data?._id),
-//     })
-//     function handelUploadedImage(e){
-//         e.preventDefault();
-//         const uploadedImage = e.target.files[0]
-//         if(uploadedImage){
-           
-//            const fileReader = new FileReader()
-//            fileReader.readAsDataURL(uploadedImage)
-//            fileReader.addEventListener('load',function(){
-//             Setdata({
-//                 ...data,
-//                 previewImage:this.result,
-//                 avatar:uploadedImage
-//             })
-//            })
 
-//         }
-//     }
-//      function handelUserInput(e){
-//           const{name, value} = e.target
-//           Setdata({
-//             ...data,
-//             [name]:value
-//           })
-//     }
-//   async  function OnformSubmit(e){
-//         e.preventDefault();
-//         if(!data.fullName||!data.avatar){
-//             toast.error(" All fields are required")
-//         }
-//         const formData = new FormData()
-//         formData.append("fullName",data.fullName)
-//         formData.append("avatar",data.avatar)
-        
-    
-//         await dispatch(UpdateUser([data.userID, formData]));
-//         console.log("id",data.userID,data)
-//     }
-//     return(
-//         <Home>
-//  <div className="h-[100vh] flex items-center justify-center ">
-//     <form noValidate
-//     onSubmit={OnformSubmit}
-//     className="flex flex-col items-center justify-center gap-5 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]"
-//     >
-        
-//             <h1 className="text-xl font-semibold">EditProfile</h1>
-//             <label htmlFor="image_uploads" className="cursor-pointer ">
-//             {data.previewImage?(<img className="h-24 w-24 rounded-full m-auto" src={data.previewImage}/>):(<BsPersonCircle className="h-24 w-24 rounded-full m-auto text-white"/>)}
-//         </label>
-//         <input type="file" name="image_uploads" id="image_uploads" 
-//         onChange={handelUploadedImage}
-//         accept=".jpg,.jpeg,.png"
-//         className="hidden"
-//         />
-//         <label htmlFor="fullName" className="cursor-pointer"></label>
-//         <input type="text" name="fullName" id="fullName"
-//         placeholder="Enter Your Name"
-//         required
-//         className="text-center bg-transparent border px-1 py-1 rounded-lg hover:rounded-none "
-//         value={data.fullName}
-//         onChange={handelUserInput}
-//         />
-//         <button type="submit"
-//         className="w-full px-1 py-1  bg-yellow-600 rounded-xl text-center transition-all ease-in-out duration-300 hover:bg-yellow-500 hover:rounded-none text-lg tracking-wider"
-//         >EditProfile</button>
-        
-//     </form>
-
-//  </div>
-
-//         </Home>
-//     )
-
-// }
 function EditProfile() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -105,6 +24,7 @@ function EditProfile() {
     function handleImageUpload(e) {
         e.preventDefault();
         const uploadedImage = e.target.files[0];
+        console.log(uploadedImage)
         if(uploadedImage) {
             const fileReader = new FileReader();
             fileReader.readAsDataURL(uploadedImage);
@@ -126,27 +46,63 @@ function EditProfile() {
         })
     }
 
-    async function onFormSubmit(e) {
-        e.preventDefault();
-        console.log(data);
-        if(!data.fullName || !data.avatar) {
-            toast.error("All fields are mandatory");
-            return;
-        }
+      async function onFormSubmit(e) {
+       e.preventDefault();
+    console.log(data);
+     if(!data.fullName || !data.avatar) {
+         toast.error("All fields are mandatory");
+              return;
+         }
+    const formData = new FormData();
+            formData.append("fullName", data.fullName);
+             console.log("fullName",data.fullName)
+             console.log("avatar",data.avatar)
+             formData.append("avatar", data.avatar);
+            console.log(formData.entries().next())
+            console.log(formData.entries().next())
+      
+         try{
+             
+             await dispatch(UpdateUser([  data.userId,  formData]))
+
+             await dispatch(getUserDtails())
+
+            navigate("/userprofile");
+        }catch(e){
+           toast.error(` user profile not updated ${e}`)
+         }
+
+        
        
-        const formData = new FormData();
-        formData.append("fullName", data.fullName);
-        console.log("fullName",data.fullName)
-        console.log("avatar",data.avatar)
-        formData.append("avatar", data.avatar);
-        console.log(formData.entries().next())
-        console.log(formData.entries().next())
-        await dispatch(UpdateUser({ id: data.userId, data: data }))
 
  
 
-        navigate("/userprofile");
-    }
+      
+      }
+    
+// async function onFormSubmit(e) {
+//     e.preventDefault();
+//     console.log("Form submitted:", data); // Log form data before submission
+//     if (!data.fullName || !data.avatar) {
+//     toast.error("All fields are mandatory");
+//     return;
+//     }
+    
+//     const formData = new FormData();
+//     formData.append("fullName", data.fullName);
+//     formData.append("avatar", data.avatar);
+//     console.log("FormData:", formData); // Log FormData object before dispatching
+    
+//     try {
+//     await dispatch(UpdateUser({ id: data.userId, data: formData }));
+//     console.log("Update user action dispatched successfully");
+//     navigate("/userprofile");
+//     } catch (error) {
+//     console.error("Error updating user:", error); // Log any errors
+//     // Handle error, show error message, etc.
+//     }
+//     }
+    
 
     return (
         <Home>
@@ -202,9 +158,9 @@ function EditProfile() {
             </div>
         </Home>
     );
-}
+                        }              
 
 
 
 
-export  default EditProfile
+export  default EditProfile;

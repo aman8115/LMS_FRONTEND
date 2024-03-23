@@ -6,7 +6,7 @@ import axiosInstance from "../../Helpers/axiosintance";
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     role: localStorage.getItem('role') || "",
-   // data: localStorage.getItem('data') != undefined ? JSON.parse(localStorage.getItem('data')) : {}
+    data: localStorage.getItem('data') !== undefined ? JSON.parse(localStorage.getItem('data')) : {}
 };
 
 export const createAccount = createAsyncThunk("/auth/rgister" , async (data) =>{
@@ -68,25 +68,10 @@ export const getUserDtails = createAsyncThunk('/auth/details',async()=>{
 
    }
 })
-// export const UpdateUser = createAsyncThunk('/auth/update',async(id,data)=>{
-//   try{
-// const res = axiosInstance.put(`/user/edit:${id}`,data);
-//        res.promise(res,{
-//         loading:' Profile Updation in progress',
-//         success:(data)=>{
-//           return  data?.data?.message
-//         },
-//         error:" Profile updation failed"
-//        })
-//        return (await res).data
 
-//   }catch(e){
-//               toast.error(e?.data?.response?.message)
-//   }
-// })
-export const UpdateUser = createAsyncThunk("/user/update/profile", async ({ id, data }) => {
+export const UpdateUser = createAsyncThunk("/user/update/profile", async ( data ) => {
     try {
-        const res = axiosInstance.put(`user/update/${id} `,data);
+        const res = axiosInstance.put(`user/update/${data[0]} `,data[1]);
         toast.promise(res, {
             loading: "Wait! profile update in progress...",
             success: (data) => {
@@ -99,6 +84,7 @@ export const UpdateUser = createAsyncThunk("/user/update/profile", async ({ id, 
         toast.error(error?.response?.data?.message);
     }
 })
+
   
        
     
@@ -124,14 +110,18 @@ const authSlice = createSlice({
             state.role = ""
         })
         .addCase(getUserDtails.fulfilled,(action,state)=>{
+            if(!action?.payload?.user) return;
+            console.log("This is auth payload",action?.payload)
             localStorage.setItem("data",JSON.stringify(action?.payload?.user))
             localStorage.setItem("isLoggedIn",true)
             localStorage.setItem('role',action?.payload?.user?.role)
             state.isLoggedIn = true
              state.data = action?.payload?.user
+             
              state.role = action?.payload?.user?.role
-             console.log(action?.payload)
+             
          })
+        
           
     }
 })
