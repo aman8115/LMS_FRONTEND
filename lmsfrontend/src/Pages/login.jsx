@@ -28,7 +28,7 @@ function Login(){
             
         }
         const res = await dispatch(LoginAccount(loginData))
-        console.log(res)
+       
         if(res?.payload?.success) navigate('/')
         
         SetloginData({
