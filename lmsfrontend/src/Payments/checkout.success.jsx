@@ -1,9 +1,15 @@
+
+
 import { AiFillCheckCircle} from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 import Home from "../Layouts/HomeLayout"
 
+
+
 function CheckoutSuccess(){
+ 
+   
 
     return(
         <Home>

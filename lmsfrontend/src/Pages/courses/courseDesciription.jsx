@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
 
 import Home from "../../Layouts/HomeLayout";
 
@@ -8,9 +9,10 @@ import Home from "../../Layouts/HomeLayout";
 function Coursedescription(){
     const navigate = useNavigate()
     const {state} = useLocation()
+    
     const{role,data} = useSelector((state)=>state.auth)
     useEffect(()=>{
-
+   
     },[])
     return(
         <Home>
@@ -44,8 +46,14 @@ function Coursedescription(){
         <span className="text-xl font-semibold text-white">{state?.createdBy}</span></p>
 
 
-        {role === "ADMIN" || data?.subscription?.status  ==="ACTIVE" ?(
-       <button className=" pt-2 pb-2 rounded-xl text-center transition-all duration-300 ease-in-out bg-yellow-600 w-1/2 text-lg font-serif tracking-widest"> Watch Lecture</button>
+        {role === "ADMIN" || data?.subscription?.status  ==="active" ?(
+            
+       <button 
+       
+       onClick={()=> navigate('/displayingLecture',{state:{...state}}, console.log("onclick",state)) }
+      
+       
+       className=" pt-2 pb-2 rounded-xl text-center transition-all duration-300 ease-in-out bg-yellow-600 w-1/2 text-lg font-serif tracking-widest">  Watch Lecture</button>
     ):(
         <button 
         onClick={()=>{navigate('/checkout')}}

@@ -21,7 +21,7 @@ import { getRazorPayId,purchaseCourseBundle,verifyUserPayment } from "../Redux/S
   // for storing the payment details after successfull transaction
   const paymentDetails = {
     razorpay_payment_id: "",
-   razorpay_subscription_id: "",
+    razorpay_subscription_id: "",
     razorpay_signature: "",
   };
   console.log(paymentDetails)
@@ -46,6 +46,7 @@ import { getRazorPayId,purchaseCourseBundle,verifyUserPayment } from "../Redux/S
         paymentDetails.razorpay_subscription_id = response.razorpay_subscription_id;
         toast.success("Payments successfully!!");
        const res  =  await dispatch(verifyUserPayment(paymentDetails));
+       console.log(res)
         
      res?.payload?.success?navigate('/checkout/success'):navigate('/checkout/fail')
           

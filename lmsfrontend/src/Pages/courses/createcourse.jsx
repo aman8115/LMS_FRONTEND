@@ -9,62 +9,64 @@ import { createCourse } from '../../Redux/Slice/courseSlice'
 function Createcourse(){
     const dispatch = useDispatch()
    const navigate = useNavigate()
-   const[userInput ,SetuserInput] = useState({
-   title:"",
-   description:"",
-   createdBy:"",
-   category:"",
-   thumbnail:null,
-   previewImage:""
-
-
-
-   })
-   function handleuploadImage(event){
-    event.preventDefault()
-    const uploadedImage = event.target.files[0];
-    if(uploadedImage){
-        const fileReader = new FileReader()
-        fileReader.readAsDataURL(uploadedImage)
-        fileReader.addEventListener("load",function(){
-            SetuserInput({
-                ...userInput,
-                previewImage:this.result,
-                thumbnail:uploadedImage
-            })
-        })
-    }
   
-   }
-   function handleUserInput(e){
-     const {name, value} = e.target
-      SetuserInput({
-        ...userInput,
-        [name]:value
-      })
-   }
-    async function OnformSubmit(e){
-    e.preventDefault()
-    if(!userInput.title ||!userInput.description ||!userInput.category||userInput.createdBy ||!userInput.thumbnail){
-        toast.error("All field are required")
-        
-    }
-    const response = await dispatch(createCourse(userInput))
-    if(response?.payload?.success){
-
-        SetuserInput({
+        const [userInput,SetuserInput] = useState({
             title:"",
-            description:"",
-            createdBy:"",
+            description:"", 
             category:"",
+            createdBy:"",
             thumbnail:null,
             previewImage:""
-         
         })
-        navigate("/courses")
-    }
-   }
+        const handleuploadImage = (e)=>{
+            e.preventDefault()
+            const uploadImage = e.target.files[0]
+            if(uploadImage){
+                const filereader = new FileReader()
+                filereader.readAsDataURL(uploadImage)
+                filereader.addEventListener("load",function(){
+                    SetuserInput({
+                        ...userInput,
+                        previewImage:this.result,
+                        thumbnail:uploadImage
+                    })
+                })
+            }
+        }
+        const handleUserInput = (e)=>{
+            const {name,value} = e.target;
+            SetuserInput({
+                ...userInput,
+                [name]:value
+            })
 
+        }
+        const OnformSubmit = async (e)=>{
+            e.preventDefault()
+            if(!userInput.title||!userInput.description||!userInput.category||!userInput.createdBy||!userInput.thumbnail){
+                toast.error(" All field is required ")
+                return
+            }
+           const response = await dispatch(createCourse(userInput))
+           console.log(response)
+           if(response?.payload?.success){
+            SetuserInput({
+                title:"",
+                description:"", 
+                category:"",
+                createdBy:"",
+                thumbnail:null,
+                previewImage:""
+            })
+           }
+           navigate('/courses')
+     
+
+        }
+  
+   
+        
+    
     return (
 
         <Home>
@@ -183,5 +185,9 @@ function Createcourse(){
         </Home>
       
     )
-}
+    
+   }
+
+   
+
 export default Createcourse
