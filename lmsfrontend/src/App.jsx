@@ -2,6 +2,8 @@ import './App.css'
 
 import{Route , Routes} from 'react-router-dom'
 
+import Addlecture from './Dashboard/Addlecture.jsx'
+import AdminDashboard from './Dashboard/AdminDashboard.jsx'
 import DisplayingLecture from './Dashboard/DisplayingLecture.jsx'
 import Aboutus from './Pages/Aboutus.jsx'
 import Contact from './Pages/contactus.jsx'
@@ -46,9 +48,11 @@ function App() {
      <Route path='/denied' element={ <Denied/>}></Route>
      <Route element={<RequireAuth allowedRoles={["ADMIN",]}/>} >
       <Route path='/course/create' element={<Createcourse/>}>
-        
+       
      
       </Route>
+      <Route path='/course/addlecture' element ={<Addlecture/>}></Route>
+      <Route path='/admin/dashboard' element ={<AdminDashboard/>}></Route>
      </Route>
      <Route path='/course/description' element={<Coursedescription/>}></Route>
      

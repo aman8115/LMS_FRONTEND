@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { AiOutlineArrowLeft,  } from 'react-icons/ai'
 import {useDispatch, useSelector} from 'react-redux'
 import {useLocation, useNavigate } from "react-router-dom"
 
@@ -28,6 +29,10 @@ function DisplayingLecture(){
     className='text-2xl text-yellow-500 text-center font-semibold tracking-widest' 
     
     > CourseType:{ state?.title}</div>
+   <button 
+    className='text-3xl font-semibold text-green-500
+    ' title='Go to course'
+   onClick={()=>navigate('/courses')}><AiOutlineArrowLeft/></button>
     <div className='flex justify-between gap-10 w-full cursor-pointer'>
         <div className='space-y-5 w-[33rem] p-2 rounded-lg shadow-[0_0_10px_black] h-[35rem]'>
             <video 
@@ -73,7 +78,7 @@ function DisplayingLecture(){
                     </p>
 
                     {role === 'ADMIN' && (<button className='pt-2 pb-2 top-2 btn-accent border text-white text-xl font-semibold w-1/2 rounded-tl-btn rounded-tr-btn   hover:rounded-none transition-all ease-in-out duration-300'
-                onClick={()=>onlectureDelete(state?._id,lecture?._id)}
+                //onClick={()=>onlectureDelete(state?._id,lecture?._id)}
                 > Delete lecture</button>)}
 
                 </li>

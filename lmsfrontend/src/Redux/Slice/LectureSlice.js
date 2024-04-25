@@ -22,22 +22,30 @@ const initialState = {
         toast.error(error?.response?.data?.message);
       }
  })
- export const addLecture = createAsyncThunk("addlecture",async(data)=>{
-    try{
-        let formData = new FormData()
-        formData.append("title",data?.title)
-        formData.append("description",data?.description)
-        formData.append(" lecture",data?.lecture)
-        const res = axiosInstance.post(`course${data.id}`,formData)
-        toast.promise(res,{
-            loading:" adding lecture in progerss",
-            success:" lecture added successfylly",
-            error:' faild to add lecture'
-        })
-        return (await res).data
+ export const addLecture = 
 
-    }catch(error){
-        toast.error(error?.response?.data?.message)
+ createAsyncThunk(
+  "/course/lecture/add",
+  async (data) => {
+    const formData = new FormData();
+    formData.append("lecture", data.lecture);
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+
+    try {
+      const res =  axiosInstance.post(`/course/addlecture/${data.id}`, formData);
+                        console.log(res)
+      toast.promise(res, {
+        loading: "Adding the lecture...",
+        success: "Lecture added successfully",
+        error: "Failed to add lecture",
+      });
+      const response = await res;
+
+      return response.data;
+    
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
     }
  })
 
